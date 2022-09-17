@@ -4,7 +4,7 @@ from odoo.exceptions import UserError, ValidationError
 
 class tco_compound(models.Model):
     _name = "tco.compound"
-    _description = "compound model1"
+    _description = "compound model"
 
     name = fields.Char(string='Compound', required=True, readonly=False, store=True)
 
