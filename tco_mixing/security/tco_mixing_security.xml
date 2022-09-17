@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.module.category" id="module_category_tco_mixing">
+            <field name="name">Tco Mixing Rights</field>
+        </record>
+
+        <record id="group_tco_mixing_admin" model="res.groups">
+            <field name="name">tco Mixing Admin</field>
+            <field name="category_id" ref="module_category_tco_mixing"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="tco_mixing_view_form" model="ir.ui.view">
+            <field name="name">tco.mixing.view.form</field>
+            <field name="model">tco.getmaterials</field>
+            <field name="arch" type="xml">
+                <form string="Mixing">
+                    <sheet>
+                        <div>
+                            <field name="name" class="oe_title" string="Doc No" placeholder="e.g. Doc No"/>
+                        </div>
+
+                            <group col="4">
+                                <group col="4" colspan="4">
+                                    <group>
+                                        <field name="mixingdate"/>
+                                    </group>
+                                    <group>
+                                        <field name="batchno"/>
+                                    </group>
+                                    <group>
+                                        <field name="compoundname"/>
+                                    </group>
+                                    <group>
+                                        <field name="id_tuico"/>
+                                    </group>
+                                </group>
+                                <group col="4" colspan="4">
+                                    <group>
+                                        <field name="quantity"/>
+                                        <field name="compoundno" options="{'no_create': True}"/>
+                                    </group>
+                                    <group>
+                                        <field name="times"/>
+                                        <field name="issuedno"/>
+                                    </group>
+                                    <group>
+                                        <field name="machineno"/>
+                                        <field name="weight"/>
+                                    </group>
+                                </group>
+                            </group>
+                        <notebook>
+                            <page id="getmaterials_ids"  string="Mixing" name="getmaterials_ids">
+                                <field name="getmaterials_ids" nolabel="1" sum="weight" count="materialno">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="materialno" string="materialno" options="{'no_create': True}"/>
+                                        <field name="name" string="Name" invisible="1"/>
+                                        <field name="weight" string="weight"/>
+                                        <field name="ref"/>
+                                        <field name="batchnostock"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+        <record id="tco_mixing_tree_view" model="ir.ui.view">
+            <field name="name">tco.getmaterials.tree.view</field>
+            <field name="model">tco.getmaterials</field>
+            <field name="arch" type="xml">
+
+                <tree string="Mixing" default_order="mixingdate desc" create="1" delete="1" multi_edit="0">
+                    <field name="name" string="Doc No"/>
+                    <field name="mixingdate"/>
+                    <field name="batchno"/>
+                    <field name="compoundname"/>
+                    <field name="issuedno"/>
+                    <field name="machineno" />
+                    <field name="times"/>
+                    <field name="rate" />
+                    <field name="quantity" />
+                    <field name="actualweight"/>
+                    <field name="weight"/>
+                    <field name="id_tuico"/>
+                </tree>
+            </field>
+        </record>
+        <record id="tco_mixing_filter" model="ir.ui.view">
+            <field name="name">tco.getmaterials.select</field>
+            <field name="model">tco.getmaterials</field>
+            <field name="arch" type="xml">
+                <search string="Search Mixing">
+                    <field name="name" string="Doc No" filter_domain="[('name', 'ilike', self)]"/>
+                    <field name="compoundno" string="Compound" filter_domain="['|',('name', 'ilike', self), ('compoundname', 'ilike', self)]"/>
+                    <field name="batchno" string="Batch No"/>
+<!--                   &lt; is '<' and  &gt; is '>'-->
+                    <field name="mixingdate" string="Mixing Date" filter_domain="[('mixingdate', '=', self )]"/>
+<!--                    <field name="clm_description" string="Notes"/>-->
+                    <separator/>
+                    <filter string="30days ago" name="filter_30d_ago" domain="[('mixingdate', '&gt;=', (context_today()+ relativedelta(days=-30)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Mixing Date" name="filter_mixingdate" date="mixingdate"  />
+
+                    <group expand="0" string="Group By">
+                        <filter string="Doc no" name="grp_name" context="{'group_by': 'name'}"/>
+                        <filter string="Compound" name="grp_compound" context="{'group_by': 'compoundname'}"/>
+                        <filter string="Batch No" name="grp_batchno" context="{'group_by': 'batchno'}"/>
+                        <filter string="Mixing Date" name="grp_mixingdate" context="{'group_by': 'mixingdate'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="open_view_mixing_all" model="ir.actions.act_window">
+            <field name="name">Mixing</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tco.getmaterials</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">form,tree</field>
+            <field name="target">main</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('tco_mixing.tco_mixing_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('tco_mixing.tco_mixing_view_form')})]"/>
+            <field name="search_view_id" ref="tco_mixing.tco_mixing_filter"/>
+            <field name="context">{'search_default_filter_30d_ago': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Mixing found. Let's create one!
+                </p><p>
+
+                </p>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

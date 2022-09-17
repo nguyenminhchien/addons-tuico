@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="stock_picking_form_view" model="ir.ui.view">
+            <field name="name">stock.picking.form.view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field eval="112" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_ids_without_package']" position="before">
+                        <button name="action_record_mixing_compound" type="object" string="Mixing Products"
+                            attrs="{'invisible': ['|',('state', '!=', 'draft'),('picking_type_id', 'not in', [457,521]) ]}"
+                            class="oe_highlight" />
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tco_getmaterials,access_tco_getmaterials,model_tco_getmaterials,tco_mixing.group_tco_mixing_admin,1,1,1,1
+access_tco_getmaterialdetails,access_tco_getmaterialdetails,model_tco_getmaterialdetails,tco_mixing.group_tco_mixing_admin,1,1,1,1
+
+access_tco_getmaterials_gc,access_tco_getmaterials_gc,model_tco_getmaterials_gc,tco_mixing.group_tco_mixing_admin,1,1,1,1
+access_tco_getmaterialdetails_gc,access_tco_getmaterialdetails_gc,model_tco_getmaterialdetails_gc,tco_mixing.group_tco_mixing_admin,1,1,1,1
+
