@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_task">
+<!--        <t t-foreach="docs" t-as="o">-->
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" >
+<!--                         <t t-call="tuico_account.report_hq_invoice_css"/>-->
+                        <div class="header">
+                            <!-- Template header of page -->
+                            <t t-call="tco_experiment.report_hq_invoice_header"/>
+
+                        </div>
+                        <div class="article">
+                            <!-- Template body of page -->
+                            <t t-call="tco_experiment.template_invoice_page"/>
+
+                        </div>
+                        <div class="footer">
+                            <!-- Template footer of page -->
+                            <t t-call="tco_experiment.report_hq_invoice_footer"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+
+    </template>
+    <template id="report_hq_invoice_header">
+            <div style="overflow: hidden; position: relative; background-color: white; width: 935px; height: 365px;">
+                <!-- Begin page background -->
+                <div id="pg3Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;">
+                </div>
+                <div style="-webkit-user-select: none;">
+                    <object style="-moz-transform:scale(1); z-index: 0;">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="935" height="365"> <!--chieu cao cua nen image-->
+                            <defs>
+                            <style type="text/css">
+                            .g0_1{
+                            fill: #FFFFFF;
+                            }
+                            .g1_1{
+                            }
+                            </style>
+                            </defs>
+                            <image preserveAspectRatio="none" x="-30" y="0" width="990" height="365"  xlink:href="/tco_experiment/static/src/css/img/tco_task_header.png"/><!--chieu cao image-->
+<!--                            <path d="M662.9,171.2H882.4v42H662.9Z" class="g0_1"/>-->
+<!--                            <path d="M589.1,86.7H893.9v52.8H589.1Z" class="g0_1"/>-->
+                        </svg>
+                    </object>
+                </div>
+                <!-- End page background -->
+                <style type="text/css">
+                    .t {
+                        transform-origin: bottom left;
+                        z-index: 2;
+                        position: absolute;
+                        white-space: pre;
+                        overflow: visible;
+                        line-height: 1.5;
+                    }
+                </style>
+                <style id="fonts_header" type="text/css">
+                    @font-face {
+                        font-family: ArialBold_e;
+                        src: url('/tco_experiment/static/src/fonts/ArialBold_e.woff') format("woff");
+                    }
+
+                    @font-face {
+                        font-family: Arial_h;
+                        src: url('/tco_experiment/static/src/fonts/Arial_h.woff') format("woff");
+                    }
+                </style>
+                <style type="text/css">
+                    #t3_1 {
+                        left: 690px;
+                        bottom: 50px;
+                    }
+
+                    #t4_1 {
+                        left: 61px;
+                        bottom: -67px;
+                        letter-spacing: 0.19px;
+                    }
+
+                    #t5_1 {
+                        left: 199px;
+                        bottom: -67px;
+                        letter-spacing: 0.21px;
+                    }
+
+                    #t6_1 {
+                        left: 313px;
+                        bottom: -67px;
+                        letter-spacing: 0.17px;
+                    }
+
+                    #t7_1 {
+                        left: 617px;
+                        bottom: -62px;
+                        letter-spacing: 0.13px;
+                        word-spacing: 0.06px;
+                    }
+
+                    #t8_1 {
+                        left: 636px;
+                        bottom: -69px;
+                        letter-spacing: 0.12px;
+                    }
+
+                    #t9_1 {
+                        left: 793px;
+                        bottom: -62px;
+                        letter-spacing: 0.23px;
+                    }
+
+                    #ta_1 {
+                        left: 806px;
+                        bottom: -69px;
+                        letter-spacing: 0.22px;
+                    }
+
+                    #tb_1 {
+                        left: 730px;
+                        bottom: 23px;
+                        letter-spacing: 0.12px;
+                        word-spacing: 0.05px;
+                    }
+
+                    #tc_1 {
+                        left: 42px;
+                        top: 107px;
+                        letter-spacing: -0.15px;
+                        word-spacing: 0.03px;
+                    }
+
+                    #td_1 {
+                        left: 42px;
+                        top: 135px;
+                        letter-spacing: -0.13px;
+                        word-spacing: -0.02px;
+                    }
+
+                    #te_1 {
+                        left: 42px;
+                        bottom: 56px;
+                        letter-spacing: -0.12px;
+                        word-spacing: 0.04px;
+
+                    }
+
+                    #tf_1 {
+                        left: 402px;
+                        top: 172px;
+                        letter-spacing: 0.11px;
+                    }
+
+                    #tg_1 {
+                        left: 402px;
+                        bottom: 79px;
+                        letter-spacing: 0.15px;
+                    }
+
+                    #th_1 {
+                        left: 402px;
+                        bottom: 57px;
+                        letter-spacing: 0.07px;
+                        word-spacing: 0.13px;
+                    }
+
+                    #ti_1 {
+                        left: 580px;
+                        top: 46px;
+                        letter-spacing: -0.17px;
+                    }
+
+                    #tj_1 {
+                        left: 406px;
+                        bottom: -35px;
+                        letter-spacing: 0.2px;
+                        word-spacing: 0.09px;
+                    }
+
+                    #tk_1 {
+                        left: 490px;
+                        bottom: -35px;
+                    }
+
+                    #tl_1 {
+                        left: 497px;
+                        bottom: -35px;
+                        letter-spacing: 0.25px;
+                    }
+
+                    #tm_1 {
+                        left: 589px;
+                        bottom: 199px;
+                        letter-spacing: -0.2px;
+                        word-spacing: 0.04px;
+                    }
+
+                    #tn_1 {
+                        left: 589px;
+                        bottom: 187px;
+                        letter-spacing: -0.09px;
+                        word-spacing: 0.05px;
+                    }
+
+                    #to_1 {
+                        left: 589px;
+                        bottom: 174px;
+                        letter-spacing: -0.1px;
+                        word-spacing: 0.01px;
+                    }
+
+                    #tp_1 {
+                        left: 589px;
+                        bottom: 162px;
+                        letter-spacing: -0.1px;
+                    }
+
+                    .s1_1 {
+                        font-size: 18px;
+                        font-family: TimesNewRoman_8;
+                        color: #000;
+                    }
+
+                    .s2_1 {
+                        font-size: 21px;
+                        font-family: TimesNewRomanBold_b;
+                        color: #000;
+                        font-weight: 900;
+                    }
+
+                    .s4_1 {
+                        font-size: 20px;
+                        color: #000;
+                        font-weight: 900;
+                    }
+
+                    .s5_1 {
+                        font-size: 17px;
+                        color: #000;
+                        font-family: Arial_h;
+                    }
+
+                    .s6_1 {
+                        font-size: 20px;
+                        font-family: ArialBold_e;
+                        color: #24268A;
+                    }
+
+                    .s7_1 {
+                        font-size: 14px;
+                        font-weight: bold;
+                        font-family: Arial_h;
+                        color: #000;
+                    }
+
+                    .s8_1 {
+                        font-size: 13px;
+                        color: #000;
+                    }
+                </style>
+                <!-- Content -->
+
+                <div  id="ti_1" class="t s6_1">
+                    <t t-esc="o.clm_compound_id"/>
+                </div>
+<button name="button_validate" attrs="{'invisible': ['|', '|', ('state', 'in', ('waiting','confirmed')),
+        ('show_validate', '=', False), ('approval_state', '=', 'waiting')]}"
+        string="Validate" type="object" class="oe_highlight" groups="stock.group_stock_user"/>
+
+    <!--            <t t-call="tuico_account.report_hq_invoice_case_mark_invoice_number"/>-->
+    <!--            <t t-call="tuico_account.report_hq_invoice_buyer"/>-->
+    <!--            <t t-call="tuico_account.report_hq_invoice_supplier"/>-->
+            </div>
+
+    </template>
+
+
+    <template id="template_invoice_page">
+        <div class="page">
+            <div style="overflow: hidden; position: relative; background-color: white; width: 935px; height: 1090px;">
+                <!-- Begin page background -->
+                <div style="-webkit-user-select: none;">
+                    <object style="width:935px; height:945px; -moz-transform:scale(1); z-index: 0;">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="935px" height="1090" version="1.1">
+                            <defs>
+                            <style type="text/css">
+                            .g0_2{
+                            fill: #FFFFFF;
+                            }
+                            .g1_2{
+                            }
+                            </style>
+                            </defs>
+<!--                            <path d="M662.9,171.2H882.4v42H662.9Z" class="g0_2"/>-->
+                            <image preserveAspectRatio="none" x="-30" y="195" width="990" height="950" xlink:href="/tco_experiment/static/src/css/img/tco_task_body.png"/>
+<!--                            <image preserveAspectRatio="none" x="25" y="706" width="877" height="707" xlink:href="/tuico_account/static/src/images/2.jpg"/>-->
+<!--                            <image preserveAspectRatio="none" x="25" y="1410" width="877" height="707" xlink:href="/tuico_account/static/src/images/2.jpg"/>-->
+                        </svg>
+                    </object>
+                </div>
+                <!-- End page background -->
+                <style type="text/css">
+                    .t {
+                        transform-origin: bottom left;
+                        z-index: 2;
+                        position: absolute;
+                        white-space: pre;
+                        overflow: visible;
+                        line-height: 1.5;
+                    }
+                </style>
+
+                <style type="text/css">
+                    @font-face {
+                        font-family: ArialBold_e;
+                        src: url('/tco_experiment/static/src/fonts/ArialBold_e.woff') format("woff");
+                    }
+
+                    @font-face {
+                        font-family: Arial_h;
+                        src: url('/tco_experiment/static/src/fonts/Arial_h.woff') format("woff");
+                    }
+                </style>
+
+                <style type="text/css">
+                    #t1_2 {
+                        left: 60px;
+                        top: 320px;
+                        letter-spacing: 0.07px;
+                    }
+
+                    #tj_2 {
+                        left: 406px;
+                        top: 320px;
+                        letter-spacing: 0.2px;
+                        word-spacing: 0.09px;
+                    }
+
+                    .container_table {
+                        left: 25px;
+                        top: 280px;
+                        letter-spacing: 0.13px;
+                    }
+
+                    .s1_2 {
+                        font-size: 18px;
+                        font-family: TimesNewRoman_8;
+                        color: #000;
+                    }
+
+                    .s2_2 {
+                        font-size: 21px;
+                        color: #000;
+                        font-weight: 900;
+                    }
+                </style>
+
+<!--                <div id="t1_2" class="t s1_2">Page <t t-esc="page_number or 1"/></div>-->
+<!--                <div id="tj_2" class="t s2_2"><u><span t-field="o.title"/></u></div>-->
+<!--                <div class="t container_table">-->
+<!--                    <style>-->
+<!--                        #commodity {-->
+<!--                            font-family: "Times New Roman" !important;-->
+<!--                            width: 90%;-->
+<!--                            margin-left: 25px;-->
+<!--                        }-->
+
+<!--                        #commodity td, #commodity th {-->
+<!--                            border: none;-->
+<!--                        }-->
+
+<!--                        #commodity .s3_2 {-->
+<!--                            color: black;-->
+<!--                            font-weight: 900;-->
+<!--                            font-size: 20px;-->
+<!--                            color: #000;-->
+<!--                        }-->
+<!--                    </style>-->
+<!--                    <table id="commodity">-->
+<!--                        <t t-raw="0"/>-->
+<!--                    </table>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </template>
+
+    <template id="report_hq_invoice_footer">
+        <div style="overflow: hidden; position: relative; background-color: white; width: 935px; height: 78px;">
+            <!-- Begin page background -->
+            <div style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;">
+            </div>
+            <div style="-webkit-user-select: none;">
+                <object width="935" height="76" style="width:935px; height:76px; -moz-transform:scale(1); z-index: 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="935" height="76" version="1.1">
+                        <defs>
+                        <style type="text/css">
+                            .g0{
+                                fill: #FFFFFF;
+                            }
+                            .g1{}
+                            .g2{
+                                fill: none;
+                                stroke: #000000;
+                                stroke-width: 0.183;
+                                stroke-linecap: butt;
+                                stroke-linejoin: miter;
+                                stroke-dasharray: 1,1,1,1,1,1,1,1;
+                            }
+
+                        </style>
+                        </defs>
+                        <image preserveAspectRatio="none" x="-30" y="0" width="990" height="76" xlink:href="/tco_experiment/static/src/css/img/tco_task_foot.png"/>
+                    </svg>
+                </object>
+            </div>
+            <style class="shared-css" type="text/css">
+                .t {
+                    transform-origin: bottom left;
+                    z-index: 2;
+                    position: absolute;
+                    white-space: pre;
+                    overflow: visible;
+                    line-height: 1.5;
+                }
+            </style>
+
+            <style type="text/css">
+                #t2k_7 {
+                    left: 40px;
+                    top: 15px;
+                }
+
+                #t5b_5_2{
+                    left: 135px;
+                    top: 15px;
+                }
+
+                #t2n_7 {
+                    left: 40px;
+                    bottom: 15px;
+                }
+
+                #t2n_7_2 {
+                    left: 170px;
+                    bottom: 15px;
+                }
+
+                #t2l_7 {
+                    left: 594px;
+                    top: 15px;
+                    letter-spacing: -0.17px;
+                }
+
+                #t2m_7 {
+                    left: 358px;
+                    top: 15px;
+                    letter-spacing: -0.1px;
+                    word-spacing: 0.05px;
+                }
+
+                #t2m_7_2 {
+                    left: 440px;
+                    top: 15px;
+                    letter-spacing: -0.1px;
+                    word-spacing: 0.05px;
+                }
+
+                .s3_5{
+                    font-size: 17px;
+                    font-weight: 700;
+                    font-family: Arial_h;
+                }
+
+                .s9 {
+                    font-size: 17px;
+                    color: #0000B7;
+                }
+            </style>
+
+            <style type="text/css">
+                @font-face {
+                    font-family: ArialBold_e;
+                    src: url("/tuico_account/static/src/fonts/ArialBold_e.woff") format("woff");
+                }
+
+                @font-face {
+                    font-family: Arial_h;
+                    src: url("/tuico_account/static/src/fonts/Arial_h.woff") format("woff");
+                }
+            </style>
+
+
+
+            <div id="t2k_7" class="t s9">Shipped per: </div>
+
+        </div>
+    </template>
+
+</odoo>

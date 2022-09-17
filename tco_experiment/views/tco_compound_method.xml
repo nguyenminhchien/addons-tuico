@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="tco_compound_method_line_form_view" model="ir.ui.view">
+            <field name="name">tco.compound.method.line.form.view</field>
+            <field name="model">tco.compound.method.line</field>
+            <field eval="35" name="priority"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form class="o_expense_form" js_class="hr_expense_form_view">
+                    <sheet>
+                        <group>
+
+                            <field name="name"/>
+<!--                            <field name="clm_Category"/>-->
+                            <field name="clm_Unit"/>
+                            <field name="clm_method_id"/>
+                            <field name="sequence"/>
+                            <field name="clm_internal_code"/>
+                        </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="tco_compound_method_line_tree_view" model="ir.ui.view">
+            <field name="name">tco.compound.method.line.tree.view</field>
+            <field name="model">tco.compound.method.line</field>
+            <field eval="1" name="priority"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree string="Compound Method Line" default_order="create_date desc" >
+                    <field name="name"/>
+<!--                    <field name="clm_Category"/>-->
+<!--                    <field name="clm_Unit"/>-->
+<!--                    <field name="method_id"/>-->
+<!--                    <field name="task_id"/>-->
+<!--                    <field name="sequence"/>-->
+<!--                    <field name="clm_internal_code"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="tco_compound_method_line_view_search" model="ir.ui.view">
+            <field name="name">tco.compound.method.line.search</field>
+            <field name="model">tco.compound.method.line</field>
+            <field name="arch" type="xml">
+                <search string="Method">
+                    <field name="name"/>
+                    <field name="clm_method_id"/>
+                    <field name="clm_internal_code"/>
+                </search>
+             </field>
+        </record>
+
+        <record id="action_tco_compound_method_line" model="ir.actions.act_window">
+            <field name="name">Customer Method Line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tco.compound.method.line</field>
+            <!-- <field name="view_type">form</field> --> <!-- Odoo 13 has removed this field -->
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('tco_compound_method_line_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('tco_compound_method_line_form_view')})]"/>
+        </record>
+<!--select method-->
+        <record id="tco_compound_method_line_tree_view_foot" model="ir.ui.view">
+            <field name="name">tco.compound.method.line.tree.view.foot</field>
+            <field name="model">tco.compound.method.line</field>
+            <field name="arch" type="xml">
+                <tree string="Compound Method Line" default_order="create_date desc">
+                    <field name="name"/>
+                    <field name="clm_Category"/>
+                    <field name="clm_Unit"/>
+                    <field name="clm_method_id"/>
+                    <field name="sequence"/>
+                    <field name="clm_internal_code"/>
+                </tree>
+
+<!--                <footer>-->
+<!--                    <button string="Select"/>-->
+<!--                <button id="btn_select_method" string="Discard" class="btn-secondary" special="cancel" data-hotkey="z"/>-->
+<!--                </footer>-->
+            </field>
+        </record>
+
+        <record id="action_tco_compound_method_line_foot" model="ir.actions.act_window">
+            <field name="name">Select Method Line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tco.compound.method.line</field>
+            <field name="target">new</field>
+            <!-- <field name="view_type">form</field> --> <!-- Odoo 13 has removed this field -->
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('tco_experiment.tco_compound_method_line_tree_view_foot')})]"/>
+        </record>
+<!--end select method        -->
+        <record id="tco_compound_method_form_view" model="ir.ui.view">
+            <field name="name">tco.compound.method.form.view</field>
+            <field name="model">tco.compound.method</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="clm_title" class="oe_edit_only" string="Name: "/>
+                            <h1><field name="clm_title" placeholder="e.g. title"/></h1>
+                        </div>
+                        <div class="oe_title">
+                            <label for="clm_Code" class="oe_edit_only" string="Code: "/>
+                            <h1><field name="clm_Code" placeholder="e.g. code"/></h1>
+                        </div>
+                        <div class="oe_title">
+                            <label for="clm_internal_code" class="oe_edit_only" string="Internal Code: "/>
+                            <h1><field name="clm_internal_code" placeholder="e.g.Internal code"/></h1>
+                        </div>
+                        <notebook>
+                            <page id="tco_compound_method_line"  string="Method" name="tco_compound_method_line">
+                                <field name="method_line_ids">
+                                    <form>
+										<group>
+                                            <field name="sequence"/>
+                                            <field name="clm_internal_code" string="Code"/>
+									 		<field name="name" string="Title"/>
+                                            <field name="clm_Category"/>
+                                            <field name="clm_Method_Standarder"/>
+                                            <field name="clm_Unit"/>
+								 		</group>
+									</form>
+                                    <tree editable="bottom">
+                                        <!-- Displayed fields -->
+                                        <field name="sequence" string ="se" widget="handle"/>
+                                        <field name="clm_internal_code" string="Code"/>
+                                        <field name="name" string="Title"/>
+<!--                                        <field name="clm_Category"/>-->
+                                        <field name="clm_Method_Standarder"/>
+                                        <field name="clm_Unit"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tco_compound_method_tree_view" model="ir.ui.view">
+            <field name="name">tco.compound.method.tree.view</field>
+            <field name="model">tco.compound.method</field>
+            <field name="arch" type="xml">
+                <tree string="Compound Method" default_order="write_date desc">
+                    <field name="clm_Code"/>
+                    <field name="clm_title" string="Title"/>
+                    <field name="clm_internal_code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_tco_compound_method" model="ir.actions.act_window">
+            <field name="name">Customer Method</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tco.compound.method</field>
+            <!-- <field name="view_type">form</field> --> <!-- Odoo 13 has removed this field -->
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('tco_compound_method_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('tco_compound_method_form_view')})]"/>
+        </record>
+
+        <record id="tco_compound_method_view_search" model="ir.ui.view">
+            <field name="name">tco.compound.method.search</field>
+            <field name="model">tco.compound.method</field>
+            <field name="arch" type="xml">
+                <search string="Method">
+                    <field name="clm_Code" string="Code"/>
+                    <field name="clm_title" string="Title"/>
+                </search>
+             </field>
+        </record>
+
+        <menuitem id="menu_tco_experiment_method"
+                  action="action_tco_compound_method"
+                        name="Method"
+                        parent="menu_tco_experiment_root"
+                        sequence="111"/>
+
+<!--        <menuitem id="menu_tco_experiment_method_customer"-->
+<!--                  action="action_tco_compound_method"-->
+<!--                        name="Customer Method"-->
+<!--                        parent="menu_tco_experiment_method"-->
+<!--                        sequence="16"/>-->
+
+    </data>
+</odoo>

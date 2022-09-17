@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="tco_report_layout" name="Tuico Report layout">&lt;!DOCTYPE html&gt;
+        <html t-att-lang="lang and lang.replace('_', '-')"
+        >
+            <head>
+                <meta charset="utf-8"/>
+            </head>
+<!--             if not full_width else 'container-fluid'-->
+            <body t-att-class="tco_container">
+                <div id="wrapwrap">
+                    <main>
+                        <t t-out="0"/>
+                    </main>
+                </div>
+            </body>
+        </html>
+    </template>
+
+    <template id="tco_html_container">
+        <t t-set="body_classname" t-value="tco_container"/>
+        <t t-call="tco_experiment.tco_report_layout">
+            <t t-out="0"/>
+        </t>
+    </template>
+
+</odoo>
