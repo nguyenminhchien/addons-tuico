@@ -12,7 +12,7 @@ class StockPicking(models.Model):
         if self.state != 'draft':
             raise UserError(_('Use Only draft status'))
         if not self.scheduled_date:
-            raise UserError(_('Input "force date".'))
+            raise UserError(_('Input "force date1".'))
         if self.picking_type_id.id not in (2, 521): #457
             raise UserError(_('Use Only X1-6103-Manufacturing and X1-6105-Manufacturing'))
         if self.picking_type_id.id == 2:
