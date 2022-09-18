@@ -12,7 +12,7 @@ class tco_getmaterials(models.Model):
         return str(datetime.strftime(fields.Date.context_today, "%y%m%d"))
 
     name = fields.Char(string="Doc No", default=_get_default_docno)
-    name = fields.Char(string="Doc No")
+
     sequence = fields.Integer(string='Sequence', default=1)
     batchno = fields.Char(string="Batch No")
     compoundno = fields.Many2one('product.product', string="Compound No")
@@ -45,7 +45,6 @@ class tco_getmaterials(models.Model):
     @api.onchange('mixingdate')
     def get_name(self):
         for res in self:
-            print('======================', datetime.strftime(res.mixingdate, "%y%m%d"))
             self.name = datetime.strftime(res.mixingdate, "%y%m%d")
 
     @api.model

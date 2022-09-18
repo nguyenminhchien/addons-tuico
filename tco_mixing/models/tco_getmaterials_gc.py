@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError
+from datetime import datetime
 
 class tco_getmaterials(models.Model):
     _name = "tco.getmaterials_gc"
     _description = "Get Materials GC"
 
-    name = fields.Char(string="Doc No")
+    def _get_default_docno(self):
+        return str(datetime.strftime(fields.Date.context_today, "%y%m%d"))
+
+    name = fields.Char(string="Doc No", default=_get_default_docno)
+
     sequence = fields.Integer(string='Sequence', default=1)
     batchno = fields.Char(string="Batch No")
     compoundno = fields.Many2one('product.product', string="Compound No")
@@ -35,6 +40,11 @@ class tco_getmaterials(models.Model):
             name = res.name
             result.append((res.id, name))
         return result
+
+    @api.onchange('mixingdate')
+    def get_name(self):
+        for res in self:
+            self.name = datetime.strftime(res.mixingdate, "%y%m%d")
 
     @api.model
     def _name_search(self, name='', args=None, operator='ilike', limit=100, name_get_uid=None):

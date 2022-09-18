@@ -30,7 +30,7 @@
                         </div>
                         <group>
                             <group>
-                                <field name="clm_compound_id"/>
+                                <field name="clm_compound_id" options="{'no_create': False}"/>
                                 <field name="clm_customer"/>
                                 <field name="clm_spec_code"/>
                             </group>

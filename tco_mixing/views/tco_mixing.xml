@@ -8,7 +8,7 @@
                 <form string="Mixing">
                     <sheet>
                         <div>
-                            <field name="name" class="oe_title" string="Doc No" placeholder="e.g. Doc No"/>
+                            <field name="name" class="oe_title" string="Doc No" placeholder="e.g. Doc No" invisible="1"/>
                         </div>
 
                             <group col="4">
