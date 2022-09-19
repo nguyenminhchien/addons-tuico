@@ -91,6 +91,12 @@
                   parent="menu_tco_experiment_configuration"
                   sequence="1132"/>
 
+        <menuitem action="open_view_tco_compound_all"
+                  id="menu_tco_compound_all"
+                  name="Compound"
+                  parent="menu_tco_experiment_configuration"
+                  sequence="1133"/>
+
 
 
 

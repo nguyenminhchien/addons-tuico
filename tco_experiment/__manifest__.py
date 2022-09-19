@@ -12,6 +12,7 @@
     'data': [
         'security/tco_experiment_security.xml',
         'security/ir.model.access.csv',
+        'views/tco_compound.xml',
         'views/tco_project.xml',
         'views/tco_experiment_views.xml',
         'views/tco_task.xml',
