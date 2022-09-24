@@ -12,6 +12,8 @@ class tco_getmaterials(models.Model):
         return str(datetime.strftime(fields.Date.context_today, "%y%m%d"))
 
     name = fields.Char(string="Doc No", compute='get_name')
+    x_docno = fields.Char(string="Doc No")
+    docno = fields.Char(string="Doc No")
 
     sequence = fields.Integer(string='Sequence', default=1)
     batchno = fields.Char(string="Batch No")
@@ -32,6 +34,7 @@ class tco_getmaterials(models.Model):
     weight = fields.Float(string="Weight")
     fortest = fields.Boolean(string="For Test")
     empno = fields.Char(string="Emp No")
+
 
     getmaterials_ids = fields.One2many('tco.getmaterialdetails', 'getmaterials_id', string='Mixing Details', ondelete='cascade')
 
