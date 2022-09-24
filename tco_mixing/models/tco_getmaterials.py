@@ -11,7 +11,7 @@ class tco_getmaterials(models.Model):
     def _get_default_docno(self):
         return str(datetime.strftime(fields.Date.context_today, "%y%m%d"))
 
-    name = fields.Char(string="Doc No", default=_get_default_docno)
+    name = fields.Char(string="Doc No", compute='get_name')
 
     sequence = fields.Integer(string='Sequence', default=1)
     batchno = fields.Char(string="Batch No")
@@ -42,7 +42,7 @@ class tco_getmaterials(models.Model):
             result.append((res.id, name))
         return result
 
-    @api.onchange('mixingdate')
+    @api.depends('mixingdate')
     def get_name(self):
         for res in self:
             self.name = datetime.strftime(res.mixingdate, "%y%m%d")
