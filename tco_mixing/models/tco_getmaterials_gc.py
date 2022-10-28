@@ -10,7 +10,7 @@ class tco_getmaterials(models.Model):
     def _get_default_docno(self):
         return str(datetime.strftime(fields.Date.context_today, "%y%m%d"))
 
-    name = fields.Char(string="Doc No", default=_get_default_docno)
+    name = fields.Char(string="Doc No", compute='get_name', store=True)
     x_docno = fields.Char(string="Doc No")
     docno = fields.Char(string="Doc No")
 

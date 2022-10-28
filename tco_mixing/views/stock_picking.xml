@@ -12,6 +12,7 @@
                         <button name="action_record_mixing_compound" type="object" string="Mixing Products"
                             attrs="{'invisible': ['|',('state', '!=', 'draft'),('picking_type_id', 'not in', [457,521]) ]}"
                             class="oe_highlight" />
+
                 </xpath>
             </field>
         </record>
