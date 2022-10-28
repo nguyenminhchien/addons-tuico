@@ -11,8 +11,8 @@ class StockPicking(models.Model):
     def action_record_mixing_compound(self):
         if self.state != 'draft':
             raise UserError(_('Use Only draft status'))
-        # if not self.force_date_done:
-        #     raise UserError(_('Input "force date1".'))
+        if not self.force_date_done:
+            raise UserError(_('Input "force date".'))
         if self.picking_type_id.id not in (457, 521): #457, 521
             raise UserError(_('Use Only X1-6103-Manufacturing and X1-6105-Manufacturing'))
         if self.picking_type_id.id == 457:
