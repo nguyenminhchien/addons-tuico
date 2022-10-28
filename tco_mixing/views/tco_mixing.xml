@@ -10,7 +10,7 @@
                         <div>
                             <field name="name" class="oe_title" string="Doc No" placeholder="e.g. Doc No" invisible="1"/>
                             <field name="docno" class="oe_title" string="Doc No" placeholder="e.g. Doc No" invisible="1"/>
-                            <field name="x_docno" class="oe_title" string="Doc No" placeholder="e.g. Doc No"/>
+
                         </div>
 
                             <group col="4">
@@ -71,7 +71,7 @@
                 <tree string="Mixing" default_order="mixingdate desc" create="1" delete="1" multi_edit="0">
                     <field name="name" string="Doc No" invisible="1"/>
                     <field name="docno" string="Doc No" invisible="1"/>
-                    <field name="x_docno" string="Doc No"/>
+
 
                     <field name="mixingdate"/>
                     <field name="batchno"/>
