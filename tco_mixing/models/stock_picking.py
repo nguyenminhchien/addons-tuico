@@ -22,7 +22,7 @@ class StockPicking(models.Model):
 
     def action_record_mixing_tuico(self):
         if self.state != 'draft':
-            raise UserError(_('Use Only draft status'))
+            raise UserError(_('Use Only draft status1111'))
         docno = self.force_date_done.strftime('%y%m%d')
 
         rs_data = self.env['tco.getmaterialdetails'].read_group([("getmaterials_id.name", "=", docno)],
