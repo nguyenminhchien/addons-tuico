@@ -5,7 +5,7 @@
     'description': """Managing Experiment information""",
     'author': "tuicovn.com",
     'category': 'Uncategorized',
-    'version': '0.1',
+    'version': '1.1',
     'depends': [
         'product', 'stock', 'portal', 'mail', 'utm',
     ],
