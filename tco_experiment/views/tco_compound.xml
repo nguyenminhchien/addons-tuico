@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="tco_compound_view_form" model="ir.ui.view">
+            <field name="name">tco.compound.view.form</field>
+            <field name="model">tco.compound</field>
+            <field eval="25" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Testing">
+                    <sheet>
+                        <div>
+                            <field name="name" class="oe_title" string="Compound Name" placeholder="e.g. compound name"/>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tco_open_create_tco_compound" model="ir.actions.act_window">
+            <field name="name">Create a compound</field>
+            <field name="res_model">tco.compound</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="tco_experiment.tco_compound_view_form"/>
+        </record>
+
+        <record id="tco_compound_tree_view" model="ir.ui.view">
+            <field name="name">tco.compound.tree.view</field>
+            <field name="model">tco.compound</field>
+            <field name="arch" type="xml">
+                <tree string="Compound" default_order="write_date desc" editable="top" create="1" delete="1" multi_edit="0">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tco_compound_filter" model="ir.ui.view">
+            <field name="name">tco.compound.select</field>
+            <field name="model">tco.compound</field>
+            <field name="arch" type="xml">
+                <search string="Search Testing">
+                    <field name="name" string="Compound"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="open_view_tco_compound_all" model="ir.actions.act_window">
+            <field name="name">Compound</field>
+            <field name="res_model">tco.compound</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree</field>
+            <field name="target">main</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('tco_compound_tree_view')})]"/>
+            <field name="search_view_id" ref="tco_compound_filter"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                   No compound found. Let's create one!
+                </p><p>
+
+                </p>
+            </field>
+        </record>
+
+
+
+
+
+
+
+
+
+        <record id="tco_method_title_tree_view" model="ir.ui.view">
+            <field name="name">tco.method.title.view</field>
+            <field name="model">tco.method.title</field>
+            <field name="arch" type="xml">
+                <tree string="Compound" default_order="write_date desc" editable="top" create="1" delete="1" multi_edit="0">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="open_view_tco_method_title" model="ir.actions.act_window">
+            <field name="name">Method</field>
+            <field name="res_model">tco.method.title</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree</field>
+            <field name="target">main</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('tco_method_title_tree_view')})]"/>
+<!--            <field name="search_view_id" ref="tco_compound_filter"/>-->
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                   No compound found. Let's create one!
+                </p><p>
+
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

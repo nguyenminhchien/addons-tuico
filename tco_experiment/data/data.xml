@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sequences for tco_task -->
+        <record id="seq_tco_task" model="ir.sequence">
+            <field name="name">Task ID</field>
+            <field name="code">tco.task</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    <!-- Project Stages -->
+        <record id="tco_project_stage_0" model="tco.project.stage">
+            <field name="sequence">10</field>
+            <field name="name">To Do</field>
+        </record>
+
+        <record id="tco_project_stage_1" model="tco.project.stage">
+            <field name="sequence">15</field>
+            <field name="name">In Progress</field>
+        </record>
+
+        <record id="tco_project_stage_2" model="tco.project.stage">
+            <field name="sequence">20</field>
+            <field name="name">Done</field>
+            <field name="fold" eval="True"/>
+        </record>
+
+        <record id="tco_project_stage_3" model="tco.project.stage">
+            <field name="sequence">25</field>
+            <field name="name">Canceled</field>
+            <field name="fold" eval="True"/>
+        </record>
+    <!-- task type -->
+
+         Personal Stages: Mitchell Admin
+        <record id="tco_personal_stage_admin_0" model="tco.task.type">
+            <field name="sequence">1</field>
+            <field name="name">Inbox</field>
+        </record>
+        <record id="tco_personal_stage_admin_1" model="tco.task.type">
+            <field name="sequence">2</field>
+            <field name="name">In Progress</field>
+        </record>
+        <record id="tco_personal_stage_admin_5" model="tco.task.type">
+            <field name="sequence">6</field>
+            <field name="name">Good</field>
+            <field name="fold" eval="True"/>
+        </record>
+        <record id="tco_personal_stage_admin_6" model="tco.task.type">
+            <field name="sequence">7</field>
+            <field name="name">False</field>
+            <field name="fold" eval="True"/>
+        </record>
+    </data>
+</odoo>

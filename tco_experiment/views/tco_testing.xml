@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="tco_testing_view_form_simplified" model="ir.ui.view">
+            <field name="name">tco.testing.view.form.simplified</field>
+            <field name="model">tco.testing</field>
+            <field eval="25" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Testing">
+                    <sheet>
+                        <div>
+                            <field name="name" class="oe_title" string="Project Name" placeholder="e.g. testing id"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="clm_testobject"/>
+                                <field name="method_line_id" context="{'default_task_id': task_id}"/>
+                                <field name="method_id"/>
+                            </group>
+                            <group>
+                                <field name="clm_request_value"/>
+                                <field name="clm_description"/>
+                            </group>
+                        </group>
+
+
+                        <group string="Test Sample">
+                            <group string="Molding">
+                                <field name="clm_molding_temp"/>
+                                <field name="clm_molding_time"/>
+                            </group>
+                            <group string="Post Cure">
+                                <field name="clm_postcure_temp"/>
+                                <field name="clm_postcure_time"/>
+                            </group>
+
+                        </group>
+                        <group>
+                            <group string="Before">
+                                <field name="clm_result_before" invisible="1"/>
+                                <field name="clm_result_min_before"/>
+                                <field name="clm_result_max_before"/>
+                            </group>
+                            <group string="After">
+                                <field name="clm_result_value" invisible="1"/>
+                                <field name="clm_result_min_value"/>
+                                <field name="clm_result_max_value"/>
+                            </group>
+                        </group>
+
+                        <group string="Appearance">
+                            <group>
+
+                                <field name="clm_flash"/>
+                                <field name="clm_appearance"/>
+                                <field name="clm_molddirty"/>
+                                <field name="clm_sticky"/>
+                            </group>
+                            <group>
+                                <field name="clm_flow"/>
+                                <field name="clm_release"/>
+                                <field name="clm_loose"/>
+                            </group>
+                        </group>
+                        <group invisible="1">
+                            <field name="task_id" invisible="0"/>
+                            <field name="project_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tco_testing_view_form_simplified_footer" model="ir.ui.view">
+            <field name="name">tco.testing.view.form.simplified</field>
+            <field name="model">tco.testing</field>
+            <field eval="26" name="priority"/>
+            <field name="inherit_id" ref="tco_experiment.tco_testing_view_form_simplified"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='task_id']" position="replace">
+                        <field name="task_id" invisible="1"/>
+                </xpath>
+<!--                <xpath expr="//sheet" position="after">-->
+<!--                    <footer>-->
+<!--                        <button string="Save" special="save" class="btn-primary o_open_testing" data-hotkey="q"/>-->
+<!--                        <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="z"/>-->
+<!--                    </footer>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+
+        <record id="tco_open_create_tco_testing" model="ir.actions.act_window">
+            <field name="name">Create a Testing Sample</field>
+            <field name="res_model">tco.testing</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="tco_experiment.tco_testing_view_form_simplified_footer"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="view_tco_testing_tree_view" model="ir.ui.view">
+            <field name="name">tco.testing.tree.view</field>
+            <field name="model">tco.testing</field>
+            <field name="arch" type="xml">
+
+                <tree string="Testing" default_order="write_date desc" editable="top" create="0" delete="1" multi_edit="0">
+                    <field name="clm_testobject" string="Item"/>
+                    <field name="name" invisible="1"/>
+                    <field name="task_id" invisible="1" />
+                    <field name="clm_result_min_value" invisible="1"/>
+                    <field name="clm_result_max_value" invisible="1"/>
+                    <field name="clm_molding_temp" string="Molding Temp"/>
+                    <field name="clm_molding_time" string="Molding Time"/>
+                    <field name="clm_postcure_temp" string="Cure Temp"/>
+                    <field name="clm_postcure_time" string="Cure Time"/>
+                    <field name="clm_request_value" string="Request"/>
+
+                    <field name="clm_result_before" string="Before"/>
+                    <field name="clm_result_min_before" invisible="1"/>
+                    <field name="clm_result_max_before" invisible="1"/>
+
+                    <field name="clm_result_value" string="After" placeholder="min~max"/>
+                    <field name="clm_result_min_value" invisible="1"/>
+                    <field name="clm_result_max_value" invisible="1"/>
+
+                    <field name="clm_result" string="Result"/>
+                    <field name="method_id" string="Hardness"/>
+                    <field name="task_id_name" string="Task Name"/>
+                    <field name="task_id_compound" string="Compound"/>
+                    <field name="clm_description" string="Nodes"/>
+                    <button name="action_view_form_task" type="object" title="Task" string="Show Task"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_tco_testing_filter" model="ir.ui.view">
+            <field name="name">tco.testing.select</field>
+            <field name="model">tco.testing</field>
+            <field name="arch" type="xml">
+                <search string="Search Testing">
+                    <field name="name" string="Project"/>
+                    <field name="clm_testobject" string="Item"/>
+                    <field name="task_id_name" string="Task Name"/>
+                    <field name="task_id_compound" string="Compound"/>
+<!--                   &lt; is '<' and  &gt; is '>'-->
+                    <field name="clm_result_max_value" string="After Result min~max" filter_domain="[('clm_result_min_value', '&lt;=', self), ('clm_result_max_value', '&gt;=', self)]"/>
+                    <field name="clm_result" string="Result"/>
+                    <field name="clm_description" string="Notes"/>
+                    <separator/>
+                    <filter string="Result OK" name="result_ok" domain="[('clm_result', '=', 'ok')]"  />
+                    <group expand="0" string="Group By">
+                        <filter string="Item" name="testing_object" context="{'group_by': 'clm_testobject'}"/>
+                        <filter string="Task Name" name="task_name" context="{'group_by': 'task_id_name'}"/>
+                        <filter string="Compound" name="compound" context="{'group_by': 'task_id_compound'}"/>
+
+                        <filter string="Result" name="clm_result" context="{'group_by': 'clm_result'}"/>
+                        <filter string="Notes" name="clm_description" context="{'group_by': 'clm_description'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="open_view_tco_testing_all_config" model="ir.actions.act_window">
+            <field name="name">Testing Sample</field>
+            <field name="res_model">tco.testing</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">form,tree</field>
+            <field name="target">main</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_tco_testing_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('tco_testing_view_form_simplified_footer')})]"/>
+            <field name="search_view_id" ref="view_tco_testing_filter"/>
+            <field name="context">{'search_default_result_ok': 1
+                }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                   No Testing Sample found. Let's create one!
+                </p><p>
+
+                </p>
+            </field>
+        </record>
+
+        <record id="open_view_testing_all" model="ir.actions.act_window">
+            <field name="name">Testing Sample</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tco.testing</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">form,tree</field>
+            <field name="target">main</field>
+            <field name="view_id" ref="tco_experiment.view_tco_testing_tree_view"/>
+            <field name="search_view_id" ref="tco_experiment.view_tco_testing_filter"/>
+            <field name="context">{'search_default_result_ok': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                   No Testing Sample  found. Let's create one!
+                </p><p>
+
+                </p>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+
+<!-- -Task stage-->
+        <record id="tco_task_type_tree" model="ir.ui.view">
+            <field name="name">tco.task.type.tree</field>
+            <field name="model">tco.task.type</field>
+            <field name="arch" type="xml">
+                <tree string="Task Stage" delete="0"  multi_edit="1">
+                    <field name="sequence" widget="handle" optional="show"/>
+                    <field name="name"/>
+                    <field name="mail_template_id" optional="hide"/>
+                    <field name="rating_template_id" optional="hide"/>
+                    <field name="project_ids" optional="show" widget="many2many_tags" options="{'color_field': 'color'}" />
+                    <field name="fold" optional="show"/>
+                    <field name="user_id" optional="show"/>
+                </tree>
+            </field>
+        </record>
+        <record id="open_tco_task_type_form" model="ir.actions.act_window">
+            <field name="name">Task Stages</field>
+            <field name="res_model">tco.task.type</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="tco_task_type_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No stages found. Let's create one!
+              </p><p>
+                Track the progress of your tasks from their creation to their closing.
+              </p>
+            </field>
+        </record>
+
+        <record id="tco_project_stage_tree" model="ir.ui.view">
+            <field name="name">tco.project.stage.tree</field>
+            <field name="model">tco.project.stage</field>
+            <field name="arch" type="xml">
+                <tree string="Project Stage" delete="0" multi_edit="1">
+                    <field name="sequence" widget="handle" optional="show"/>
+                    <field name="name"/>
+                    <field name="active"/>
+                    <field name="fold"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="open_tco_project_stage_form" model="ir.actions.act_window">
+            <field name="name">Project Stages</field>
+            <field name="res_model">tco.project.stage</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="tco_project_stage_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No stages found. Let's create one!
+              </p><p>
+                Track the progress of your tasks from their creation to their closing.
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_tco_experiment_root"
+                  action="open_view_project_all_group_stage"
+            name="Tuico Experiment"
+            sequence="25"
+            />
+
+        <menuitem id="menu_tco_project_root"
+                  action="open_view_project_all_group_stage"
+                  name="Project"
+                  parent="menu_tco_experiment_root"
+                  sequence="26"
+            />
+
+        <menuitem id="menu_tco_experiment_configuration"
+                  name="Configuration"
+                  parent="menu_tco_experiment_root"
+                  sequence="113"/>
+
+        <menuitem action="open_tco_task_type_form"
+                  id="menu_tco_project_config_tco_task"
+                  name="Task Stages"
+                  parent="menu_tco_experiment_configuration"
+                  sequence="1131"
+                  groups="base.group_no_one"/>
+        <menuitem action="open_tco_project_stage_form"
+                  id="menu_tco_project_config_project_stage"
+                  name="Project Stages"
+                  parent="menu_tco_experiment_configuration"
+                  sequence="1132"/>
+
+        <menuitem action="open_view_tco_compound_all"
+                  id="menu_tco_compound_all"
+                  name="Compound"
+                  parent="menu_tco_experiment_configuration"
+                  sequence="1133"/>
+
+        <menuitem action="open_view_mooney_material"
+                  id="menu_tco_mooney_material"
+                  name="Mooney Material"
+                  parent="menu_tco_experiment_configuration"
+                  />
+
+
+
+        <menuitem action="open_view_tco_method_title"
+                  id="menu_tco_method_title"
+                  name="Method Title"
+                  parent="menu_tco_experiment_configuration"
+                  sequence="1135"/>
+
+<!--method-->
+<!--   L_____Method Physical-->
+<!--   L_____Method Test-->
+        <menuitem id="menu_tco_experiment_method"
+                        name="Method"
+                        parent="menu_tco_experiment_root"
+                        sequence="111"/>
+
+        <menuitem id="menu_tco_experiment_method_physical"
+                  action="action_tco_compound_method"
+                        name="Method Physical"
+                        parent="menu_tco_experiment_method"
+                        sequence="1111"/>
+
+        <menuitem id="menu_tco_experiment_method_test"
+                  action="action_tco_compound_method_test"
+                        name="Method Test"
+                        parent="menu_tco_experiment_method"
+                        sequence="1112"/>
+<!--End menu Method-->
+
+    </data>
+</odoo>

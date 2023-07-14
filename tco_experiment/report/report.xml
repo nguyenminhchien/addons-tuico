@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_ir_model_overview" model="ir.actions.report">
+        <field name="name">Model overview</field>
+        <field name="model">tco.task</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">tco_experiment.report_task</field>
+        <field name="report_file">tco_experiment.report_task</field>
+        <field name="print_report_name">'report task'</field>
+<!--        <field name="binding_model_id" ref="model_tco_task"/>-->
+<!--        <field name="binding_type">report</field>-->
+    </record>
+
+</odoo>
+

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="tco_method_title_search" model="ir.ui.view">
+            <field name="name">tco.method.title.search</field>
+            <field name="model">tco.method.title</field>
+            <field name="arch" type="xml">
+                <search string="Method Title">
+                    <field name="name" string="Method Name"/>
+                </search>
+
+             </field>
+        </record>
+
+        <record id="tco_method_title_form" model="ir.ui.view">
+            <field name="name">tco.method.title.form</field>
+            <field name="model">tco.method.title</field>
+            <field eval="25" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Testing">
+                    <sheet>
+                        <div>
+                            <group cols="1">
+                                <field name="name" class="oe_title" readonly="1" force_save="1"/>
+                            </group>
+                            <group cols="1">
+                                <field name="grouptitle"/>
+                            </group>
+
+                            <group cols="2">
+                                <group>
+                                    <field name="timevalue"/>
+                                    <field name="timeunit"/>
+                                </group>
+                                <group>
+                                    <field name="tempvalue"/>
+                                    <field name="tempunit"/>
+                                </group>
+                            </group>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tco_method_title_tree_view" model="ir.ui.view">
+            <field name="name">tco.method.title.view</field>
+            <field name="model">tco.method.title</field>
+            <field name="arch" type="xml">
+                <tree string="Compound" default_order="write_date desc" create="1" delete="1" multi_edit="0">
+                    <field name="name"/>
+                    <field name="grouptitle"/>
+                    <field name="timevalue"/>
+                    <field name="timeunit"/>
+                    <field name="tempvalue"/>
+                    <field name="tempunit"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="open_view_tco_method_title" model="ir.actions.act_window">
+            <field name="name">Method Title</field>
+            <field name="res_model">tco.method.title</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">form,tree</field>
+            <field name="target">main</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('tco_method_title_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('tco_method_title_form')})
+                ]"
+            />
+            <field name="search_view_id" ref="tco_method_title_search"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                   No Method Title found. Let's create one!
+                </p><p>
+
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

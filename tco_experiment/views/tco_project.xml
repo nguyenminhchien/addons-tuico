@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_tco_project_tree_view" model="ir.ui.view">
+            <field name="name">tco.project.tree.view</field>
+            <field name="model">tco.project</field>
+            <field name="arch" type="xml">
+                <tree string="Projects" decoration-muted="cmpnew == False" decoration-bf="cmpnew == True" default_order="write_date desc" >
+                    <field name="name"/>
+                    <field name="clm_compound_id"/>
+                    <field name="cmpnew" widget="boolean_toggle"/>
+                    <field name="compound_type"/>
+                    <field name="user_id"/>
+                    <field name="partner_id"/>
+                    <field name="stage_id"/>
+                    <field name="descriptionvn"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tco_project_view_form_simplified" model="ir.ui.view">
+            <field name="name">tco.project.view.form.simplified</field>
+            <field name="model">tco.project</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Project">
+                    <sheet>
+                        <div>
+                            <field name="name" class="oe_title" string="Project Name" placeholder="e.g. title"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="clm_compound_id" options="{'no_create': False}"/>
+                                <field name="clm_customer"/>
+                                <field name="clm_spec_code"/>
+                                <field name="compound_type"/>
+                            </group>
+
+                            <group>
+                                <field name="cmpnew"/>
+                                <field name="descriptionvn"/>
+                                <field name="clm_compound_ids" widget="many2many_tags" string="Physical Properties" placeholder="select method physical properties"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page id="Description"  string="Description">
+                                <field name="description"/>
+                            </page>
+                            <page id="clm_compound_line_ids"  string="Physicl Property(Spec)" name="clm_compound_line_ids">
+                                <field name="clm_compound_line_ids" >
+
+                                    <tree editable="bottom">
+                                        <control>
+                                            <create name="add_line_control" string="Add a line"/>
+                                        </control>
+                                        <!-- Displayed fields -->
+
+                                        <field name="sequence" string ="se" widget="handle" eval="1"/>
+                                        <field name="clm_method_line_id" required="1" readonly="0" force_save="1"/>
+                                        <field name="specific_version" readonly="1" force_save="1"  />
+                                        <field name="specific_year" readonly="1" force_save="1" />
+                                        <field name="specific_unit" readonly="1" force_save="1"/>
+                                        <field name="clm_request_value"/>
+
+                                        <field name="name" attrs="{'column_invisible': 1}"/>
+                                    </tree>
+
+                                </field>
+                            </page>
+                            <page id="task_ids"  string="Task List" name="task_ids">
+                                <field name="task_ids" context="{'form_view_ref':'tco_experiment.tco_task_view_form_simplified',
+
+                                                    }">
+                                    <tree >
+                                        <control>
+                                            <create name="add_line_control" string="Add a line"/>
+                                        </control>
+
+                                        <!-- Displayed fields -->
+                                        <field name="sequence" string ="se" widget="handle" eval="1"/>
+                                        <field name="name"/>
+                                        <field name="clm_testdate"/>
+                                        <field name="clm_result"/>
+                                        <field name="descriptionvn" string="Notes"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="tco_project_view_form_simplified_footer" model="ir.ui.view">
+            <field name="name">tco.project.view.form.simplified</field>
+            <field name="model">tco.project</field>
+            <field name="inherit_id" ref="tco_experiment.tco_project_view_form_simplified"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="after">
+                    <footer>
+                        <button string="Create" name="action_view_tasks" type="object" class="btn-primary o_open_tasks" data-hotkey="q"/>
+                        <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </xpath>
+            </field>
+        </record>
+        <record id="tco_open_create_tco_project" model="ir.actions.act_window">
+            <field name="name">Create a Project</field>
+            <field name="res_model">tco.project</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="tco_experiment.tco_project_view_form_simplified_footer"/>
+            <field name="target">new</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="view_tco_project_filter" model="ir.ui.view">
+            <field name="name">tco.project.select</field>
+            <field name="model">tco.project</field>
+            <field name="arch" type="xml">
+                <search string="Search Project">
+                    <field name="name" string="Project"/>
+                    <field name="clm_compound_id" string="Compound"/>
+                    <field name="user_id" string="Project Manager"/>
+                    <field name="partner_id" string="Customer" filter_domain="[('partner_id', 'child_of', self)]"/>
+                    <field name="stage_id" string="Stage"/>
+                    <field name="descriptionvn" string="Description"/>
+                    <separator/>
+                    <filter string="New Compound" name="new_compound" domain="[('cmpnew', '=', True)]"  />
+                    <filter string="Old Compound" name="old_compound" domain="[('cmpnew', '=', False)]"  />
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Project Manager" name="Manager" context="{'group_by': 'user_id'}"/>
+                        <filter string="Compound" name="compound" context="{'group_by': 'clm_compound_id'}"/>
+                        <filter string="Customer" name="Partner" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Stage" name="groupby_stage" context="{'group_by': 'stage_id'}" />
+                        <filter string="New Compound" name="groupby_new"  context="{'group_by': 'cmpnew'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_tco_project_kanban" model="ir.ui.view" >
+            <field name="name">tco.project.kanban</field>
+            <field name="model">tco.project</field>
+            <field name="arch" type="xml">
+                <kanban on_create="tco_experiment.tco_open_create_tco_project" default_order="write_date desc"
+                >
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="color"/>
+                    <field name="clm_task_count"/>
+                    <field name="label_tasks"/>
+                    <field name="updatedate"/>
+                    <field name="stage_id"/>
+                    <field name="clm_compound_id"/>
+                    <field name="cmpnew"/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon oe_kanban_content oe_kanban_stock_picking_type">
+                                <div class="o_task_kanban_main">
+                                    <div class="o_kanban_card_content mw-100">
+                                        <div class="o_kanban_top_left">
+                                            <div class="o_kanban_primary_left">
+                                                <strong><span class="o_text_overflow">
+                                                    <t t-esc="record.name.value"/>
+                                                        <t t-if="record.cmpnew.raw_value == true" >(NEW)</t>
+                                                        <t t-if="record.cmpnew.raw_value == false" >(UPDATE)</t>
+                                                </span></strong>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="o_dropdown_kanban dropdown" t-if="!selection_mode">
+                                        <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                            <span class="fa fa-ellipsis-v"/>
+                                        </a>
+                                        <div class="dropdown-menu" role="menu">
+                                            <a class="dropdown-item" role="menuitem" type="edit" name="action_view_kanban_project">Edit</a>
+                                            <a t-if="widget.editable" role="menuitem" type="object" name="action_view_tasks" class="dropdown-item">Tasks</a>
+                                            <div role="separator" class="dropdown-divider"></div>
+                                            <ul class="oe_kanban_colorpicker" data-field="color" role="popup"/>
+                                        </div>
+                                    </div>
+                                    <ul>Compound:<strong> <field name="clm_compound_id"/></strong></ul>
+                                </div>
+                                <div class="oe_kanban_content">
+
+                                        <span>
+                                            Produce:
+                                            <a class="o_project_kanban_box" name="action_view_tasks_produce" type="object">
+                                                <field name="produce_ids" widget="many2many_tags" />
+                                            </a>
+                                        </span>
+
+                                    <div class="o_kanban_record_bottom mt-3">
+                                        <div class="oe_kanban_bottom_left">
+
+                                            <a class="o_project_kanban_box" name="action_view_tasks" type="object">
+                                                <div>
+                                                    <li>
+                                                        <span class="o_label"><t t-esc="record.label_tasks.value"/>:</span>
+                                                        <strong><span class="o_value"><t t-esc="record.clm_task_count.value"/></span></strong>
+                                                    </li>
+                                                </div>
+                                            </a>
+
+                                        </div>
+                                        <div class="oe_kanban_bottom_right">
+                                            <a class="o_project_kanban_box" name="action_view_tasks_ng" type="object">
+                                                <li>Not Good: <field name="clm_task_count_ng"/></li>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_bottom mt-3">
+                                        <div class="oe_kanban_bottom_left">
+                                            <a class="o_project_kanban_box" name="action_view_tasks_ok" type="object">
+                                                <li>Good: <field name="clm_task_count_true"/></li>
+                                            </a>
+                                        </div>
+                                        <div class="oe_kanban_bottom_right">
+                                            <a class="o_project_kanban_box" name="action_view_tasks_false" type="object">
+                                                <li>Other: <field name="clm_task_count_false"/></li>
+                                            </a>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="o_kanban_record_bottom mt-3">
+                                    <div class="oe_kanban_bottom_left">
+                                        <span class="o_text_overflow text-muted" t-if="record.partner_id.value">
+                                        <span class="fa fa-user mr-2" aria-label="Partner" title="Partner"></span><t t-esc="record.partner_id.value"/>
+                                        </span>
+                                        <div t-if="record.updatedate.raw_value" class="text-muted o_row">
+                                            <span class="fa fa-clock-o mr-2" title="Dates"></span><field name="updatedate"/>
+                                        </div>
+<!--                                        <field name="activity_ids" widget="kanban_activity"/>-->
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="user_id" widget="many2one_avatar_user" t-if="record.user_id.raw_value"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+
+                </kanban>
+            </field>
+        </record>
+
+        <record id="open_view_tco_project_all_config" model="ir.actions.act_window">
+            <field name="name">Projects</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tco.project</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('tco_experiment.view_tco_project_tree_view')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('tco_experiment.view_tco_project_kanban')})]"/>
+            <field name="search_view_id" ref="view_tco_project_filter"/>
+            <field name="context">{'search_default_groupby_stage': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                   No projects found. Let's create one!
+                </p><p>
+                    Projects regroup tasks on the same topic, and each has its dashboard.
+                </p>
+            </field>
+        </record>
+
+        <record id="open_view_tco_project_all" model="ir.actions.act_window">
+            <field name="name">Projects</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tco.project</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="view_tco_project_kanban"/>
+            <field name="search_view_id" ref="view_tco_project_filter"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No projects found. Let's create one!
+                </p>
+                <p>
+                    Projects regroup tasks on the same topic, and each has its dashboard.
+                </p>
+            </field>
+        </record>
+
+        <record id="open_view_project_all_group_stage" model="ir.actions.act_window">
+            <field name="name">Projects</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tco.project</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,form,tree</field>
+            <field name="target">main</field>
+            <field name="view_id" ref="tco_experiment.view_tco_project_kanban"/>
+            <field name="search_view_id" ref="tco_experiment.view_tco_project_filter"/>
+            <field name="context">{'search_default_groupby_stage': 1,
+                                    'search_default_new_compound': 1
+                }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No projects found. Let's create one!
+                </p><p>
+                    Projects regroup tasks on the same topic, and each has its dashboard.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

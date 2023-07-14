@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_tco_task_search_form" model="ir.ui.view">
+            <field name="name">tco.task.search.form</field>
+            <field name="model">tco.task</field>
+            <field name="arch" type="xml">
+               <search string="Tasks">
+                    <field name="name" string="Task"/>
+                    <field name="display_project_id" string="Project" />
+                    <field name="personal_stage_type_id" string="Task stage"/>
+                    <field name="clm_compound_id" string="Compound"/>
+                    <field name="descriptionvn" string="Description"/>
+                    <field name="clm_issualno" string="Issual No" filter_domain="[('clm_issualno','ilike',self),('name','ilike',self)]"/>
+                    <field name="parent_id" string="Customer"/>
+
+                    <filter string="My Tasks" name="my_tasks" domain="[('user_ids', 'in', uid)]"/>
+                    <filter string="Unassigned" name="unassigned" domain="[('user_ids', '=', False)]"/>
+                    <separator/>
+                    <filter string="Good" name="good" domain="[('clm_result', '=', 'ok')]"/>
+                    <filter string="Not Good" name="notgood" domain="['|', ('clm_result', '=', 'ng'), ('clm_result', '=', False)]"/>
+                    <filter string="Produce" name="produce" domain="[('clm_produce', '=', 'produce')]"/>
+                    <filter string="Compound New" name="compoundnew" domain="[('project_new', '=', True)]"/>
+                    <filter string="Compound Update" name="compoundfalse" domain="[('project_new', '=', False)]"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Stage" name="stage" context="{'group_by': 'stage_id'}"/>
+                        <filter string="Personal Stage" name="personal_stage" context="{'group_by': 'personal_stage_type_id'}"/>
+                        <filter string="Assignees" name="user" context="{'group_by': 'user_ids'}"/>
+                        <filter string="Project" name="project" context="{'group_by': 'project_id'}"/>
+                        <filter string="Compound" name="compound" context="{'group_by': 'clm_compound_id'}"/>
+                        <filter string="Produce" name="produce" context="{'group_by': 'clm_produce'}"/>
+                        <filter string="Kanban State" name="kanban_state" context="{'group_by': 'kanban_state'}"/>
+                        <filter string="Result" name="Result_state" context="{'group_by': 'clm_result'}"/>
+                        <filter string="Project_state" name="project_state" context="{'group_by': 'project_new'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_tco_task_tree" model="ir.ui.view">
+            <field name="name">tco.task.tree</field>
+            <field name="model">tco.task</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Tasks" multi_edit="1" decoration-muted="clm_result == 'ng'"
+                    default_order="write_date desc"
+                >
+                    <field name="name"  />
+                    <field name="clm_issualno"/>
+                    <field name="clm_specific"/>
+                    <field name="clm_result"/>
+                    <field name="project_id"/>
+                    <field name="clm_compound_id" />
+                    <field name="clm_produce" />
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_tco_task" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="res_model">tco.task</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="view_tco_task_search_form"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No tasks found. Let's create one!
+                </p><p>
+                    To get things done, use activities and status on tasks.<br/>
+                    Chat in real-time or by email to collaborate efficiently.
+                </p>
+            </field>
+        </record>
+
+        <record id="tco_task_view_form_simplified" model="ir.ui.view">
+            <field name="name">tco.task.view.form.simplified</field>
+            <field name="model">tco.task</field>
+            <field eval="25" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Task">
+                    <sheet>
+<!--                        attrs="{'invisible':[('id', '=', False)], 'readonly': [('id', '!=', False)]}"-->
+                        <div>
+                            <h1><field name="name" class="oe_title" string = "Test Number" placeholder="e.g. test number"
+                            /></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="clm_testdate" widget="date"/>
+                                <field name="clm_result"/>
+                                <field name="clm_produce"/>
+                                <field name="kanban_state" invisible="1"/>
+                                <field name="project_id" invisible="0" options="{'no_create': True}"/>
+                            </group>
+                            <group>
+                                <field name="clm_issualno"/>
+                                <field name="descriptionvn" string="Notes"/>
+                                <field name="clm_compound_id" string="Compound"/>
+                                <field name="display_name"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page id="Description"  string="Description">
+                                <field name="description"/>
+                            </page>
+                            <page id="compoundas_ids"  string="Formula" name="compoundas_ids">
+                                <field name="compoundas_ids" nolabel="1" sum="clm_weight">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="clm_formula" string="Ref"/>
+                                        <field name="product_id" string="Material"/>
+                                        <field name="clm_phr"/>
+                                        <field name="clm_weight"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page id="mooney"  string="Mooney" name="mooney">
+                                <field name="clm_mooney_ids" nolabel="1"
+                                        context="{'default_product_type': 'compound' }"
+                                        domain="[('product_type', '=', 'compound')]" >
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="clm_testmode" string="Test Mode"/>
+                                        <field name="product_id" string="Material" invisible="1"/>
+                                        <field name="lot" string="Lot"/>
+                                        <field name="clm_temp"/>
+                                        <field name="clm_ml"/>
+                                        <field name="clm_mf"/>
+                                        <field name="clm_ts5"/>
+                                        <field name="clm_ts45"/>
+                                        <field name="clm_result"/>
+                                        <field name="product_type" force_save="1" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page id="rheometer"  string="Rheometer" name="rheometer">
+                                <group>
+                                    <group>
+                                        <field name="clm_Temp"/>
+                                        <field name="clm_ML"/>
+                                        <field name="clm_MH"/>
+                                    </group>
+                                    <group>
+                                        <field name="clm_TS1"/>
+                                        <field name="clm_TS2"/>
+                                        <field name="clm_TC50"/>
+                                        <field name="clm_TC90"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page id="clm_method_line_ids"  string="Physical Property(Result)" name="clm_method_line_ids">
+                                <field name="clm_method_line_ids" context="{'default_project_id':parent.project_id}">
+                                    <tree editable="bottom">
+<!--                                        <button name="edit_record" type="object" icon="fa-edit" attrs="{'invisible': [('state', 'in', ('done','cancel'))]}" width="28px"/>-->
+                                        <!-- Displayed fields -->
+
+
+                                        <field name="sequence" string ="se" widget="handle" eval="1"/>
+<!--                                        <field name="clm_method_line_id" force_save="1" />-->
+
+                                        <field name="specific_id" domain="[('project_id','=',parent.project_id)]" />
+<!--                                        <field name="result_version" readonly="1" force_save="1"/>-->
+<!--                                        <field name="result_unit" readonly="1" force_save="1"/>-->
+                                        <field name="clm_request_value"/>
+                                        <field name="clm_result_value" invisible="1"/>
+                                        <field name="result_num"/>
+                                        <field name="clm_result_min_value" invisible="1"/>
+                                        <field name="clm_result_max_value" invisible="1"/>
+                                        <field name="clm_result" string="Result"/>
+                                        <field name="method_id" invisible="1" />
+                                        <field name="method_line_id" invisible="1" />
+                                        <field name="name" invisible="1"/>
+                                        <field name="display_name" invisible="1"/>
+                                        <field name="result_test_sample" invisible="1"/>
+                                        <field name="result_compound_type" invisible="1"/>
+                                        <field name="result_astm_code2" invisible="1"/>
+                                        <field name="project_id" invisible="1"/>
+                                        <field name="task_id" invisible="1"/>
+
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page id="press_post_id"  string="Slab + Button" name="press_post_id">
+                                <field name="press_post_id">
+                                    <tree editable="bottom">
+                                        <!-- Displayed fields -->
+
+                                        <button name="copy_record" type="object" icon="fa-copy" class="btn-link"/>
+                                        <field name="task_id" invisible="1"/>
+                                        <field name="sequence" string ="se" widget="handle" eval="1"/>
+
+                                        <field name="clm_testobject" string="Item"/>
+                                        <field name="clm_molding_temp" string="Molding Temp"/>
+                                        <field name="clm_molding_time" string="Molding Time(s)"/>
+                                        <field name="clm_postcure_temp" string="Cure Temp"/>
+                                        <field name="clm_postcure_time" string="Cure Time(h)"/>
+                                        <field name="clm_description" string="Notes"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page id="clm_testing_ids"  string="Testing Sample" name="clm_testing_ids">
+                                <field name="clm_testing_ids" context="{'default_task_id': active_id}">
+
+                                    <tree string="Physical">
+                                        <!-- Displayed fields -->
+                                        <button name="copy_record" type="object" icon="fa-copy" class="btn-link"/>
+                                        <field name="task_id" invisible="1"/>
+                                        <field name="project_id" invisible="1"/>
+                                        <field name="sequence" string ="se" widget="handle" eval="1"/>
+                                        <field name="name" invisible="1"/>
+                                        <field name="clm_testobject" string="Item"/>
+                                        <field name="method_line_id" context="{'default_task_id': task_id}" />
+                                        <field name="method_id"/>
+                                        <field name="clm_molding_temp" string="Molding Temp"/>
+                                        <field name="clm_molding_time" string="Molding Time"/>
+                                        <field name="clm_postcure_temp" string="Cure Temp"/>
+                                        <field name="clm_postcure_time" string="Cure Time" />
+<!--                                        <field name="comsionset" string="Comsion Set" />-->
+                                        <field name="clm_request_value" string="Request" optional="show"/>
+
+                                        <field name="clm_result_before" string="Before" optional="show" force_save="1"/>
+                                        <field name="clm_result_min_before"  invisible="1"/>
+                                        <field name="clm_result_max_before"  invisible="1"/>
+
+                                        <field name="clm_result_value" string="After" optional="show"/>
+                                        <field name="clm_result_min_value" string="After" optional="show" invisible="1"/>
+                                        <field name="clm_result_max_value" string="After" optional="show" invisible="1"/>
+
+                                        <field name="clm_flash" string="Bazo" optional="hide"/>
+                                        <field name="clm_appearance" string="Appearance" optional="hide"/>
+                                        <field name="clm_molddirty" string="Mold dirty" optional="hide"/>
+                                        <field name="clm_sticky" string="Sticky" optional="hide"/>
+                                        <field name="clm_flow" string="Material flow" optional="hide"/>
+                                        <field name="clm_release" string="Release agent" optional="hide"/>
+                                        <field name="clm_loose" string="Loose flash" optional="hide"/>
+                                        <field name="clm_result" string="Result" optional="show" />
+                                        <field name="clm_description" string="Notes" optional="show" />
+                                        <button name="action_view_appearance" type="object" title="Appearance" string="Appearance" />
+
+                                    </tree>
+
+
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="tco_task_view_form_simplified_footer" model="ir.ui.view">
+            <field name="name">tco.task.view.form.simplified</field>
+            <field name="model">tco.task</field>
+            <field name="inherit_id" ref="tco_experiment.tco_task_view_form_simplified"/>
+            <field eval="26" name="priority"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='project_id']" position="attributes">
+<!--                        <field name="project_id" invisible="1"/>-->
+                    <attribute name="invisible">1</attribute>
+
+                </xpath>
+                <xpath expr="//sheet" position="after">
+                    <footer>
+                        <button string="Save" special="save" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="tco_open_create_tco_task" model="ir.actions.act_window">
+            <field name="name">Create a Task</field>
+            <field name="res_model">tco.task</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="tco_experiment.tco_task_view_form_simplified"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="view_tco_task_kanban" model="ir.ui.view">
+            <field name="name">tco.task.kanban</field>
+            <field name="model">tco.task</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id" on_create="tco_experiment.tco_open_create_tco_task"  default_order="write_date desc">
+                    <field name="name"/>
+                    <field name="color"/>
+                    <field name="priority"/>
+                    <field name="stage_id" />
+                    <field name="user_ids"/>
+                    <field name="sequence"/>
+                    <field name="active"/>
+                    <field name="kanban_state"/>
+                    <field name="personal_stage_type_id" />
+                    <field name="clm_issualno"/>
+                    <field name="project_id"/>
+                    <field name="clm_produce"/>
+                    <progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger", "normal": "muted"}'/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon oe_kanban_content oe_kanban_stock_picking_type">
+                                <div class="o_task_kanban_main">
+                                    <div class="o_kanban_card_content mw-100">
+                                        <div class="o_kanban_top_left">
+                                            <div class="o_kanban_primary_left">
+                                                <field name="priority" widget="priority"/>
+                                                <strong>
+                                                    <span class="o_text_overflow"><t t-esc="record.name.value"/></span>
+                                                    Ver: <span class="o_text_overflow"><t t-esc="record.clm_issualno.value"/></span>
+                                                    <t t-if="record.clm_produce.raw_value == 'produce'" >(PRODUCE)</t>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="o_dropdown_kanban dropdown" t-if="!selection_mode">
+                                        <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                            <span class="fa fa-ellipsis-v"/>
+                                        </a>
+                                        <div class="dropdown-menu" role="menu">
+                                            <a t-if="widget.editable" role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                            <a t-if="widget.editable" role="menuitem" type="object" name="action_view_testing" class="dropdown-item">Testing Sample</a>
+                                            <div role="separator" class="dropdown-divider"></div>
+                                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <ul>
+                                        <div>
+                                            Project: <field name="project_id"/>
+                                        </div>
+                                        <div>
+                                            Compound: <strong><field name="clm_compound_id"/></strong>
+                                                <field name="clm_result" widget="color_red"/>
+                                        </div>
+                                        <button class="btn btn-primary" name="action_view_testing" type="object">
+                                            <div>
+                                                Testing Sample: <field name="clm_testing_ids"/>
+                                            </div>
+                                        </button>
+                                    </ul>
+                                </div>
+                                <div class="o_kanban_record_bottom mt-3">
+                                    <div class="oe_kanban_bottom_left">
+                                        <div class="o_project_kanban_boxes">
+                                            <div t-if="record.clm_testdate.raw_value" class="text-muted o_row">
+                                                <span class="fa fa-clock-o mr-2" title="Dates"></span><field name="clm_testdate"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right" t-if="!selection_mode">
+                                        <field name="kanban_state" widget="state_selection" groups="base.group_user" invisible="context.get('fsm_mode', False)"/>
+                                        <t t-if="record.user_ids.raw_value"><field name="user_ids" widget="many2many_avatar_user"/></t>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+
+                </kanban>
+
+            </field>
+         </record>
+
+        <record id="action_view_tco_task_list" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="res_model">tco.task</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_my_tasks': 1}</field>
+            <field name="domain">[('display_project_id', '!=', False)]</field>
+            <field name="search_view_id" ref="view_tco_task_search_form"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No tasks found. Let's create one!
+                </p><p>
+                    To get things done, use activities and status on tasks.<br/>
+                    Chat in real-time or by email to collaborate efficiently.
+                </p>
+            </field>
+        </record>
+
+        <record id="open_view_task_list_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_view_tco_task_list"/>
+        </record>
+
+        <record id="open_view_tco_task_all_config" model="ir.actions.act_window">
+            <field name="name">Task</field>
+            <field name="res_model">tco.task</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('action_view_tco_task_list')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_tco_task_kanban')})]"/>
+            <field name="search_view_id" ref="view_tco_task_search_form"/>
+            <field name="context">{'search_default_personal_stage': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                   No projects found. Let's create one!
+                </p><p>
+                    Projects regroup tasks on the same topic, and each has its dashboard.
+                </p>
+            </field>
+        </record>
+
+        <record id="act_tco_project_2_tco_task_all" model="ir.actions.act_window">
+            <field name="name">My Tasks</field>
+            <field name="res_model">tco.task</field>
+            <field name="view_mode">kanban,tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No tasks found. Let's create one!
+                </p><p>
+                     To get things done, use activities and status on tasks.<br/>
+                    Chat in real-time or by email to collaborate efficiently.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_view_all_tco_task" model="ir.actions.act_window">
+            <field name="name">My Tasks</field>
+            <field name="res_model">tco.task</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_personal_stage': 1, 'all_task': 0,
+                                    }
+            </field>
+            <field name="search_view_id" ref="view_tco_task_search_form"/>
+            <field name="view_id" ref="view_tco_task_kanban"/>
+            <field name="target">main</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No tasks found. Let's create one!
+                </p><p>
+                     To get things done, use activities and status on tasks.<br/>
+                    Chat in real-time or by email to collaborate efficiently.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_tco_experiment_task"
+                  action="action_view_all_tco_task"
+                  name="Task"
+                  parent="menu_tco_experiment_root"
+                  sequence="109"/>
+
+
+    </data>
+</odoo>
