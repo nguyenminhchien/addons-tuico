@@ -160,19 +160,19 @@ class tco_compound_method_line(models.Model):
                                          ('Points', 'Points'),
                                          ('Mpa', 'Mpa'),
                                          ('%', '%'),
-                                         ('kN/m', 'kN/m')
+                                         ('kN/m', 'kN/m'),
+                                         ('Type A', 'Type A'),
+                                         ('Type M', 'Type M'),
+                                         ('IRHD', 'IRHD'),
                                          ],
                                         string='Unit',
                                         help="Đơn vị của giá trị nhập")
 
-    method_line_type = fields.Selection([('Shore A(Type A)', 'Shore A(Type A)'),
-                                         ('Shore A(Type M)', 'Shore A(Type M)'),
-                                         ('IRHD', 'IRHD'),
+    method_line_type = fields.Selection([('Shore A', 'Shore A'),
                                          ('Max', 'Max'),
                                          ('Min', 'Min')
                                          ],
-                                        string='Type', store=True,
-                                        placeholder="Giá trị yêu cầu nhập")
+                                        string='Type', store=True)
 
     clm_Unit = fields.Char("Unit") # Duoc thay boi  unit, sau nay xoa di
     unit = fields.Char("Unit")
