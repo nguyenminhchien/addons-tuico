@@ -2,7 +2,6 @@
 
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import ValidationError, UserError, RedirectWarning
-import pymssql
 
 class tco_compound_method(models.Model):
     _name = "tco.compound.method"
