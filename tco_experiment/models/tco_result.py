@@ -94,7 +94,11 @@ class tco_result(models.Model):
                 if record.method_id:
                     name = "%s%s" % (name, record.method_id.name)
                 if record.method_line_id:
-                    name = "%s%s" % (name, record.method_line_id.clm_Method_Standarder)
+                    name = "%s, %s" % (name, record.method_line_id.method_standarder)
+                    if record.method_line_id.method_line_type:
+                        name = "%s, %s" % (name, record.method_line_id.method_line_type)
+                    if record.method_line_id.method_line_unit:
+                        name = "%s, %s" % (name, record.method_line_id.method_line_unit)
                 record.display_name = name
                 record.name = name
 
@@ -102,7 +106,7 @@ class tco_result(models.Model):
     def name_get(self):
         result = []
         for res in self:
-            name = res.specific_id.name
+            name = res.name
             result.append((res.id, name))
         return result
 

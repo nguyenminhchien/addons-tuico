@@ -203,7 +203,7 @@
                                 </field>
                             </page>
                             <page id="clm_testing_ids"  string="Testing Sample" name="clm_testing_ids">
-                                <field name="clm_testing_ids" context="{'default_project_id': project_id}">
+                                <field name="clm_testing_ids" >
 
                                     <tree string="Physical">
                                         <!-- Displayed fields -->
@@ -265,19 +265,16 @@
             <field eval="26" name="priority"/>
             <field name="mode">primary</field>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='project_id']" position="attributes">
-<!--                        <field name="project_id" invisible="1"/>-->
-                    <attribute name="invisible">1</attribute>
-
+                <xpath expr="//field[@name='project_id']" position="replace">
+<!--                    <attribute name="invisible">1</attribute>-->
                 </xpath>
 
                 <xpath expr="//page//field[@name='clm_method_line_ids']" position="attributes">
                     <attribute name="context">{'default_project_id':context.get('default_project_id', 0)}</attribute>
+<!--                    <attribute name="context">{'default_project_id':context.get('default_project_id', 0)}</attribute>-->
                 </xpath>
 
-                <xpath expr="//page[@name='clm_testing_ids']//field[@name='clm_testing_ids']" position="attributes">
-                    <attribute name="context">{'default_project_id':context.get('default_project_id', 0)}</attribute>
-                </xpath>
+
 
 <!--                <xpath expr="//sheet" position="after">-->
 <!--                    <footer>-->
