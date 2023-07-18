@@ -82,12 +82,14 @@ class tco_task(models.Model):
     @api.onchange('project_id')
     def _onchange_project(self):
         lines = [(5, 0, 0)]
+
         existing_line = self.env['tco.specific'].search([
-            ('project_id', 'in', self.project_id.ids)
+            ('project_id', '=', self.project_id.id)
         ])
         for line in existing_line:
             vals = {
-                'clm_method_line_id': line.id
+                'specific_id': line.id,
+                'project_id': self.project_id.id
             }
             lines.append((0, 0, vals))
         self.clm_compound_line_id = lines
@@ -160,7 +162,7 @@ class tco_task(models.Model):
 
     @api.model
     def create(self, vals):
-        name = None
+        name = ""
         if vals.get('name', _('New')) == _('New'):
             vals['name'] = datetime.strftime(fields.Datetime.now(), "%y%m%d") + '-' + self.env['ir.sequence'].next_by_code('tco.task') or _('New')
 
@@ -172,7 +174,7 @@ class tco_task(models.Model):
         return super(tco_task, self).create(vals)
 
     def write(self, vals):
-        name = None
+        name = ""
         if self.name or vals.get('name'):
             name = "%s%s" % (name, vals.get('name') or self.name)
         if self.clm_issualno:
@@ -243,19 +245,7 @@ class tco_mooney(models.Model):
 
     product_id = fields.Many2one('product.product', string='Material')
 
-    @api.model
-    def create(self, vals):
-        name = None
 
-        vals['name'] = datetime.strftime(fields.Datetime.now(), "%y%m%d") + '-' + self.env[
-            'ir.sequence'].next_by_code('tco.task') or _('New')
-
-        if self.name or vals.get('name'):
-            name = "%s%s" % (name, vals.get('name') or self.name)
-        if self.clm_issualno:
-            name = "%s Ver: %s" % (name, self.clm_issualno)
-        vals['display_name'] = name
-        return super(tco_task, self).create(vals)
 
 
 

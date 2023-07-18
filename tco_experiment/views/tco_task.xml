@@ -161,7 +161,7 @@
                                         <field name="sequence" string ="se" widget="handle" eval="1"/>
 <!--                                        <field name="clm_method_line_id" force_save="1" />-->
 
-                                        <field name="specific_id" domain="[('project_id','=',parent.project_id)]" />
+                                        <field name="specific_id" domain="[('project_id','=',project_id)]" />
 <!--                                        <field name="result_version" readonly="1" force_save="1"/>-->
 <!--                                        <field name="result_unit" readonly="1" force_save="1"/>-->
                                         <field name="clm_request_value"/>
@@ -203,17 +203,16 @@
                                 </field>
                             </page>
                             <page id="clm_testing_ids"  string="Testing Sample" name="clm_testing_ids">
-                                <field name="clm_testing_ids" context="{'default_task_id': active_id}">
+                                <field name="clm_testing_ids" context="{'default_project_id': project_id}">
 
                                     <tree string="Physical">
                                         <!-- Displayed fields -->
                                         <button name="copy_record" type="object" icon="fa-copy" class="btn-link"/>
-                                        <field name="task_id" invisible="1"/>
-                                        <field name="project_id" invisible="1"/>
+                                        <field name="project_id" invisible="1" />
                                         <field name="sequence" string ="se" widget="handle" eval="1"/>
                                         <field name="name" invisible="1"/>
                                         <field name="clm_testobject" string="Item"/>
-                                        <field name="method_line_id" context="{'default_task_id': task_id}" />
+                                        <field name="method_line_id" />
                                         <field name="method_id"/>
                                         <field name="clm_molding_temp" string="Molding Temp"/>
                                         <field name="clm_molding_time" string="Molding Time"/>
@@ -258,6 +257,7 @@
             </field>
         </record>
 
+
         <record id="tco_task_view_form_simplified_footer" model="ir.ui.view">
             <field name="name">tco.task.view.form.simplified</field>
             <field name="model">tco.task</field>
@@ -270,12 +270,21 @@
                     <attribute name="invisible">1</attribute>
 
                 </xpath>
-                <xpath expr="//sheet" position="after">
-                    <footer>
-                        <button string="Save" special="save" type="object" class="btn-primary" data-hotkey="q"/>
-                        <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="z"/>
-                    </footer>
+
+                <xpath expr="//page//field[@name='clm_method_line_ids']" position="attributes">
+                    <attribute name="context">{'default_project_id':context.get('default_project_id', 0)}</attribute>
                 </xpath>
+
+                <xpath expr="//page[@name='clm_testing_ids']//field[@name='clm_testing_ids']" position="attributes">
+                    <attribute name="context">{'default_project_id':context.get('default_project_id', 0)}</attribute>
+                </xpath>
+
+<!--                <xpath expr="//sheet" position="after">-->
+<!--                    <footer>-->
+<!--                        <button string="Save" special="save" type="object" class="btn-primary" data-hotkey="q"/>-->
+<!--                        <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="z"/>-->
+<!--                    </footer>-->
+<!--                </xpath>-->
             </field>
         </record>
 

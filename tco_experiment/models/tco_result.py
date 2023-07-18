@@ -14,11 +14,12 @@ class tco_result(models.Model):
 
     task_id_compound = fields.Char(string='Task Name', store=True, related="task_id.clm_compound_id")
 
-    clm_method_line_id = fields.Many2one('tco.specific', string='Method Request', domain="[('project_id','=',project_id)]", help="This ID of tco_specific.id") # chuyen sang specific_id thi Xoa
+    clm_method_line_id = fields.Many2one('tco.specific', string='Method Request', domain="[('project_id','=',project_id.id)]", help="This ID of tco_specific.id") # chuyen sang specific_id thi Xoa
 
     specific_id = fields.Many2one('tco.specific', string='Method Request',
-                                      domain="[('project_id','=',project_id)]",
                                       help="This ID of tco_specific.id", store=True)  # se dung field nay
+
+
 
     method_line_id = fields.Many2one('tco.compound.method.line', store=True, help="Use only get data")
     method_id = fields.Many2one('tco.compound.method', store=True, help="Use only get clm_method_id for method_id")
@@ -69,33 +70,33 @@ class tco_result(models.Model):
     @api.onchange('specific_id')
     def _compute_get_value(self):
         for record in self:
-            if not record.specific_id: return False
-            if record.project_id:
-                record.result_compound_type = record.project_id.compound_type
+            if record.specific_id:
+                if record.project_id:
+                    record.result_compound_type = record.project_id.compound_type
 
-            record.method_line_id = record.specific_id.clm_method_line_id.id
-            record.method_id = record.specific_id.clm_method_line_id.clm_method_id.id
-            record.result_test_sample = record.specific_id.clm_method_line_id.clm_internal_code
+                record.method_line_id = record.specific_id.clm_method_line_id.id
+                record.method_id = record.specific_id.clm_method_line_id.clm_method_id.id
+                record.result_test_sample = record.specific_id.clm_method_line_id.clm_internal_code
 
-            record.result_astm_code2 = record.method_line_id.astm_code2
-            record.clm_request_value = record.specific_id.clm_request_value
-            record.result_unit = record.specific_id.specific_unit
-            record.result_version = record.specific_id.specific_version
-            record.result_year = record.specific_id.specific_year
+                record.result_astm_code2 = record.method_line_id.astm_code2
+                record.clm_request_value = record.specific_id.clm_request_value
+                record.result_unit = record.specific_id.specific_unit
+                record.result_version = record.specific_id.specific_version
+                record.result_year = record.specific_id.specific_year
 
-            name = ""
-            if record.result_test_sample:
-                name = "%s[%s]" % (name, record.result_test_sample)
-            if record.result_compound_type:
-                name = "%s[%s]" % (name, record.result_compound_type)
-            if record.result_astm_code2:
-                name = "%s[%s]" % (name, record.result_astm_code2)
-            if record.method_id:
-                name = "%s%s" % (name, record.method_id.name)
-            if record.method_line_id:
-                name = "%s%s" % (name, record.method_line_id.clm_Method_Standarder)
-            record.display_name = name
-            record.name = name
+                name = ""
+                if record.result_test_sample:
+                    name = "%s[%s]" % (name, record.result_test_sample)
+                if record.result_compound_type:
+                    name = "%s[%s]" % (name, record.result_compound_type)
+                if record.result_astm_code2:
+                    name = "%s[%s]" % (name, record.result_astm_code2)
+                if record.method_id:
+                    name = "%s%s" % (name, record.method_id.name)
+                if record.method_line_id:
+                    name = "%s%s" % (name, record.method_line_id.clm_Method_Standarder)
+                record.display_name = name
+                record.name = name
 
 
     def name_get(self):

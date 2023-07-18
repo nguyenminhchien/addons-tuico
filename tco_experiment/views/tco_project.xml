@@ -69,8 +69,8 @@
                                 </field>
                             </page>
                             <page id="task_ids"  string="Task List" name="task_ids">
-                                <field name="task_ids" context="{'form_view_ref':'tco_experiment.tco_task_view_form_simplified',
-
+                                <field name="task_ids" context="{'form_view_ref':'tco_experiment.tco_task_view_form_simplified_footer',
+                                                        'default_project_id': active_id,
                                                     }">
                                     <tree >
                                         <control>

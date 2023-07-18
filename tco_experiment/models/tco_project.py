@@ -184,6 +184,7 @@ class tco_project(models.Model):
                         version = line.clm_method_id.method_version
                         year = line.clm_method_id.method_year
                 vals = {
+                    'name': line.name,
                     'clm_method_line_id': line.id,
                     'specific_version': version,
                     'specific_year': year

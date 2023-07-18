@@ -20,7 +20,7 @@ class tco_specific(models.Model):
     def _compute_year_ver_unit(self):
         for record in self:
             if record.clm_method_line_id:
-                record['name'] = record.clm_method_line_id.name
+                record['name'] = self.clm_method_line_id.name
                 if record.clm_method_line_id.method_line_ver:
                     record['specific_version'] = record.clm_method_line_id.method_line_ver
                 if record.clm_method_line_id.method_line_year:
@@ -31,7 +31,7 @@ class tco_specific(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            name = record.name
+            name = record.name or ''
             result.append((record.id, name))
         return result
 
@@ -55,9 +55,11 @@ class tco_specific(models.Model):
 
     @api.model
     def create(self, values):
+
         return super(tco_specific, self).create(values)
 
     def write(self, values):
+
         result = super(tco_specific, self).write(values)
         if 'clm_request_value' in values:
             self._update_line(values)
